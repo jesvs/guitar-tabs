@@ -69,6 +69,14 @@ body{font-family:var(--font-sans);background:var(--bg);color:var(--text);min-hei
 .footer{text-align:center;padding:2rem 1rem;color:var(--dim);font-size:.8rem;border-top:1px solid var(--border);margin-top:2rem}
 .footer a{color:var(--accent);text-decoration:none}
 
+
+.yt-link{display:flex;flex-direction:column;align-items:center;gap:.5rem;text-decoration:none;color:#fff;margin-bottom:1rem;border-radius:8px;overflow:hidden;transition:opacity .2s}
+.yt-link:hover{opacity:.85}
+.yt-thumb{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#1a1a1a,#222);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.yt-thumb img{width:100%;height:100%;object-fit:cover}
+.yt-play{position:absolute;width:60px;height:60px;background:rgba(0,0,0,.8);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;border:2px solid rgba(255,255,255,.3)}
+.yt-link span{font-size:.85rem;color:var(--dim);font-weight:500}
+
 /* No results */
 .no-results{text-align:center;padding:3rem 1rem;color:var(--dim)}
 .no-results span{font-size:2rem;display:block;margin-bottom:.5rem}
@@ -191,7 +199,7 @@ function renderSongs(data){
             <div class="song-actions"><span class="badge badge-${bc}">${esc(cat.key)}</span><span class="expand-icon">▼</span></div>
           </div>
           <div class="song-body"><div class="song-content">
-            <div class="yt-wrap"><iframe id="${ytId}" data-src="https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(s.artist+' '+s.song+' guitar lesson')}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+            ${s.yt_id ? `<div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/${s.yt_id}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>` : `<a href="https://www.youtube.com/results?search_query=${encodeURIComponent(s.artist+' '+s.song+' guitar lesson')}" target="_blank" class="yt-link"><span>▶ Buscar lesson en YouTube</span></a>`}
             <pre class="tab-content" id="${tabId}">${esc(s.content)}</pre>
           </div></div>
         </div>`;
