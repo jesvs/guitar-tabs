@@ -225,11 +225,35 @@ function renderSongs(data){
   document.querySelectorAll('.yt-wrap').forEach(w=>obs.observe(w));
 }
 
+function pauseAllVideos(){
+  document.querySelectorAll('.yt-wrap iframe').forEach(iframe=>{
+    if(iframe.src&&!iframe.dataset.src){
+      // Stop the video by resetting the src
+      const src=iframe.src;
+      iframe.src='';
+      iframe.src=src;
+    }
+  });
+}
+
 function toggleCard(header){
   const card=header.parentElement;
   const wasOpen=card.classList.contains('open');
-  // Close all others
-  document.querySelectorAll('.song-card.open').forEach(c=>c.classList.remove('open'));
+  if(!wasOpen){
+    // Pause all videos before opening a new card
+    pauseAllVideos();
+  }
+  // Close all others (and their videos)
+  document.querySelectorAll('.song-card.open').forEach(c=>{
+    c.classList.remove('open');
+    // Pause video in the card being closed
+    const iframe=c.querySelector('.yt-wrap iframe');
+    if(iframe&&iframe.src&&!iframe.dataset.src){
+      const src=iframe.src;
+      iframe.src='';
+      iframe.src=src;
+    }
+  });
   if(!wasOpen) card.classList.add('open');
 }
 
